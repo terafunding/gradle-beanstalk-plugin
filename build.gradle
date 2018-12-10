@@ -1,3 +1,10 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        maven { url "${mavenRepositoryUrl}" }
+    }
+}
+
 plugins {
     id "com.gradle.plugin-publish" version "0.9.9"
 }
@@ -5,7 +12,8 @@ plugins {
 apply plugin: 'java-gradle-plugin'
 
 repositories {
-    jcenter()
+    mavenLocal()
+    maven { url "${mavenRepositoryUrl}" }
 }
 
 ext {
@@ -19,7 +27,16 @@ dependencies {
 }
 
 group = 'fi.evident.gradle.beanstalk'
-version '0.2.1'
+version '0.2.1-terafunding'
+
+gradlePlugin {
+    plugins {
+        beanstalkPlugin {
+            id = 'fi.evident.beanstalk'
+            implementationClass = 'fi.evident.gradle.beanstalk.BeanstalkPlugin'
+        }
+    }
+}
 
 pluginBundle {
     website = 'https://github.com/EvidentSolutions/gradle-beanstalk-plugin'
@@ -30,7 +47,9 @@ pluginBundle {
     plugins {
         beanstalkPlugin {
             id = 'fi.evident.beanstalk'
-            displayName = 'Gradle Beanstalk plugin'
+            displayName = 'Gradle Beanstalk plugin (for Terafunding)'
         }
     }
 }
+
+apply from: "tera-common-upload.gradle"

@@ -23,7 +23,14 @@ public class DeployTask extends DefaultTask {
     protected void deploy() {
         String versionLabel = getVersionLabel();
 
-        AWSCredentialsProviderChain credentialsProvider = new AWSCredentialsProviderChain(new EnvironmentVariableCredentialsProvider(), new SystemPropertiesCredentialsProvider(), new ProfileCredentialsProvider(beanstalk.getProfile()), new EC2ContainerCredentialsProviderWrapper());
+        String profile = beanstalk.getProfile();
+
+        if(deployment.getDeployProfile() != null) {
+            profile = deployment.getDeployProfile();
+            System.out.println(profile);
+        }
+
+        AWSCredentialsProviderChain credentialsProvider = new AWSCredentialsProviderChain(new EnvironmentVariableCredentialsProvider(), new SystemPropertiesCredentialsProvider(), new ProfileCredentialsProvider(profile), new EC2ContainerCredentialsProviderWrapper());
 
         BeanstalkDeployer deployer = new BeanstalkDeployer(beanstalk.getS3Endpoint(), beanstalk.getBeanstalkEndpoint(), credentialsProvider);
 

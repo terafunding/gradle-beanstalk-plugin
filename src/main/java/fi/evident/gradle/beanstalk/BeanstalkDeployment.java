@@ -66,4 +66,9 @@ public class BeanstalkDeployment {
     public Object getFile() {
         return file;
     }
+
+
+    private String deployProfile;
+    public String getDeployProfile() { return deployProfile; }
+    public void setDeployProfile(String profile) { this.deployProfile = profile; }
 }

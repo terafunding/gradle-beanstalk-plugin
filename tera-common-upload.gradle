@@ -1,0 +1,22 @@
+task sourcesJar(type: Jar) {
+    classifier 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+apply plugin: 'maven-publish'
+publishing() {
+    repositories {
+        maven {
+            url mavenReleasesRepositoryUrl
+            credentials {
+                username = "${mavenUserName}"
+                password = "${mavenPassword}"
+            }
+        }
+    }
+}
